@@ -9,9 +9,9 @@
 # To play a game:
 ## On CLion:
 * copy my `repository`
-* make a `new project` you don't have to name it
+* make a `new project` (you don't have to name it)
 * grab `tic-tac-toe` file from my repository and put it into `your project` file
-* grab `CMakeLists.txt` from repo and overwrites yours
+* grab `CMakeLists.txt` from repo and overwrites yours CMakeLists.txt
 * rebuild your file while set the target `to tic-tac-toe` (option will be next to this hammer)
 
 ## What's next?
