@@ -8,3 +8,15 @@
 
 # To play a game:
 ## On CLion:
+* copy my `repository`
+* make a `new project` you don't have to name it
+* grab `tic-tac-toe` file from my repository and put it into `your project` file
+* grab `CMakeLists.txt` from repo and overwrites yours
+* rebuild your file while set the target `to tic-tac-toe` (option will be next to this hammer)
+
+## What's next?
+* I'll add minimax logic to bot so he'll be unstopable
+* Ads co-op mode
+## ANY BUGS ?!
+* If you finds any bugs I will be so grateful if you write about it in issues
+  
