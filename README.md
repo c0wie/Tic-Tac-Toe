@@ -15,8 +15,8 @@
 * rebuild your file while set the target `to tic-tac-toe` (option will be next to this hammer)
 
 ## What's next?
-* I'll add minimax logic to bot so he'll be unstopable
-* Ads co-op mode
+* add minimax logic to bot so he's going to be unstopable
+* add co-op mode
 ## ANY BUGS ?!
 * If you finds any bugs I will be so grateful if you write about it in issues
   
