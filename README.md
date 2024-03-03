@@ -4,7 +4,7 @@
 * game counts points for bot and also the player (tie counts as 0 for both)
 * game ends when bot or player make vertical, horizontal or diagonal line from 3 of their pices or moves will equel 9
 
-![obraz_2024-03-02_222814858](https://github.com/c0wie/Tic-Tac-Toe/assets/134772524/2f76d4c9-3b2a-4c15-9a86-0343ee5101e4)
+![obraz_2024-03-03_093725931](https://github.com/c0wie/Tic-Tac-Toe/assets/134772524/176c3e41-413f-4f97-8ddb-e37e5c311bef)
 
 # To play a game:
 ## On CLion:
