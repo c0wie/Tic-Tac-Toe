@@ -16,9 +16,9 @@ file(COPY tic-tac-toe/images DESTINATION ${CMAKE_BINARY_DIR})
 add_executable(${PROJECT_NAME}
         tic-tac-toe/main.cpp
         tic-tac-toe/src/cell.cpp
-        tic-tac-toe/src/Bot.cpp
         tic-tac-toe/src/game.cpp
         tic-tac-toe/src/draw.cpp
+        tic-tac-toe/src/bot.cpp
 )
 target_include_directories(${PROJECT_NAME} PUBLIC tic-tac-toe/include)
 target_link_libraries(${PROJECT_NAME} sfml-graphics)

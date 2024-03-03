@@ -4,7 +4,7 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include "cell.h"
-#include "Bot.h"
+#include "bot.h"
 
 class Game {
 public:
