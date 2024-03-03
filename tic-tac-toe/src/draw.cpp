@@ -6,7 +6,7 @@ Draw::Draw(const sf::Font &font) :
 {}
 
 void Draw::title(sf::RenderWindow &window) {
-    sf::Text title("TIC-TAC_TOE", my_font_, 60);
+    sf::Text title("TIC-TAC-TOE", my_font_, 60);
     title.setPosition(sf::Vector2f(SCREEN_WIDTH/2, 50.0f));
     title.setOrigin(title.getGlobalBounds().width/2, title.getGlobalBounds().height/2);
     title.setFillColor(sf::Color::Black);
