@@ -12,8 +12,6 @@ public:
     void update(const sf::Vector2i &mouse_position);
     void restart();
 private:
-    static int evaluate(const std::vector<std::vector<Cell>> &grid);
-    int minimax(std::vector<std::vector<Cell>> grid , int depth, bool maximizing_player, unsigned int moves);
     bool game_over(unsigned int moves, const std::vector<std::vector<Cell>> &grid);
     bool player_move(const sf::Vector2i &mouse_position);
     [[nodiscard]] static bool isWin(const std::vector<std::vector<Cell>> &grid, unsigned int ID) ;
