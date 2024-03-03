@@ -23,17 +23,10 @@ Game::Game(const unsigned int grid_size, const float cell_size):
 void Game::update(const sf::Vector2i &mouse_position) {
     if(!player_move(mouse_position)) return;
     moves_++;
+    if(game_over(moves_, grid_)) return;
     Bot::move(grid_, moves_);
     moves_++;
-    if(isWin(PLAYER_ID)) {
-        player_score_++;
-        winner_ID = PLAYER_ID;
-    } else if(isWin(BOT_ID)) {
-        bot_score_++;
-        winner_ID = BOT_ID;
-    } else if(isTie()) {
-        winner_ID = TIE_ID;
-    }
+    if(game_over(moves_, grid_)) return;
 }
 
 bool Game::player_move(const sf::Vector2i &mouse_position) {
@@ -46,6 +39,28 @@ bool Game::player_move(const sf::Vector2i &mouse_position) {
                 }
     return false;
 }
+int Game::minimax(std::vector<std::vector<Cell>> grid , int depth, bool maximizing_player, unsigned int moves) {
+    int score = evaluate(grid);
+    if(score != 0)
+        return score;
+    if(game_over(moves, grid))
+        return 0 ;
+    int best = (maximizing_player)? -1000:+1000;
+    for (size_t row = 0; row<3; row++){
+        for (size_t col = 0; col<3; col++){
+            if (grid[row][col].ID == BLANK_ID){
+                grid[row][col].ID = (maximizing_player)? PLAYER_ID : BOT_ID;
+                if(maximizing_player)
+                    best = std::max(best, minimax(grid, depth+1, !maximizing_player, moves) );
+                else
+                    best = std::min(best, minimax(grid, depth+1, !maximizing_player, moves) );
+                grid[row][col].ID = BLANK_ID;
+            }
+        }
+    }
+    if(maximizing_player) best -= depth;
+    return best;
+}
 
 void Game::restart() {
     winner_ID = BLANK_ID;
@@ -56,26 +71,78 @@ void Game::restart() {
         }
     }
 }
-
-
-bool Game::isWin(const unsigned int ID) const {
-    // Check rows and columns
-    for(int i = 0; i < 3; i++) {
-        if ((grid_[i][0].ID == ID && grid_[i][1].ID == ID && grid_[i][2].ID == ID) ||
-            (grid_[0][i].ID == ID && grid_[1][i].ID == ID && grid_[2][i].ID == ID)) {
-            return true;
-        }
-    }
-
-// Check diagonals
-    if ((grid_[0][0].ID == ID && grid_[1][1].ID == ID && grid_[2][2].ID == ID) ||
-        (grid_[0][2].ID == ID && grid_[1][1].ID == ID && grid_[2][0].ID == ID)) {
+bool Game::game_over(unsigned int moves, const std::vector<std::vector<Cell>> &grid) {
+    if(isWin(grid, PLAYER_ID)) {
+        player_score_++;
+        winner_ID = PLAYER_ID;
+        return true;
+    } else if(isWin(grid, BOT_ID)) {
+        bot_score_++;
+        winner_ID = BOT_ID;
+        return true;
+    } else if(isTie(moves)) {
+        winner_ID = TIE_ID;
         return true;
     }
     return false;
 }
 
-bool Game::isTie() const {
-    if(moves_ >= 9) return true;
+
+bool Game::isWin(const std::vector<std::vector<Cell>> &grid,const unsigned int ID) {
+    // Check rows and columns
+    for(int i = 0; i < 3; i++) {
+        if ((grid[i][0].ID == ID && grid[i][1].ID == ID && grid[i][2].ID == ID) ||
+            (grid[0][i].ID == ID && grid[1][i].ID == ID && grid[2][i].ID == ID)) {
+            return true;
+        }
+    }
+
+// Check diagonals
+    if ((grid[0][0].ID == ID && grid[1][1].ID == ID && grid[2][2].ID == ID) ||
+        (grid[0][2].ID == ID && grid[1][1].ID == ID && grid[2][0].ID == ID)) {
+        return true;
+    }
     return false;
 }
+
+bool Game::isTie(unsigned int moves) {
+    if(moves >= 9) return true;
+    return false;
+}
+
+int Game::evaluate(const std::vector<std::vector<Cell>> &grid) {
+    for (size_t row = 0; row < 3; row++){
+        if (grid[row][0].ID == grid[row][1].ID && grid[row][1].ID == grid[row][2].ID){
+            if (grid[row][0].ID == PLAYER_ID)
+                return +10;
+            else if (grid[row][0].ID == BOT_ID)
+                return -10;
+        }
+    }
+
+    for (size_t col = 0; col<3; col++){
+        if (grid[0][col].ID == grid[1][col].ID && grid[1][col].ID == grid[2][col].ID){
+            if (grid[0][col].ID == PLAYER_ID)
+                return +10;
+            else if (grid[0][col].ID == BOT_ID)
+                return -10;
+        }
+    }
+
+    if (grid[0][0].ID ==grid[1][1].ID && grid[1][1].ID == grid[2][2].ID){
+        if (grid[0][0].ID == PLAYER_ID)
+            return +10;
+        else if (grid[0][0].ID == PLAYER_ID)
+            return -10;
+    }
+
+    if (grid[0][2].ID == grid[1][1].ID && grid[1][1].ID == grid[2][0].ID){
+        if (grid[0][2].ID == PLAYER_ID)
+            return +10;
+        else if (grid[0][2].ID == PLAYER_ID)
+            return -10;
+    }
+
+    return 0;
+}
+

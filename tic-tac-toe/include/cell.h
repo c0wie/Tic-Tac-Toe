@@ -13,7 +13,7 @@ public:
     bool isClicked(const sf::Vector2f &mouse_pos );
 public:
     sf::RectangleShape body;
-    int ID;
+    unsigned int ID;
     const float cell_size;
 private:
 };
