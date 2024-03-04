@@ -30,7 +30,7 @@ void Game::update(const sf::Vector2i &mouse_position) {
             num_grid[row][col] = grid_[row][col].ID;
         }
     }
-    Bot().move(num_grid);
+    Bot::move(num_grid);
     for(int row = 0; row < 3; row++){
         for (int col = 0; col < 3; ++col) {
             grid_[row][col].ID = num_grid[row][col];

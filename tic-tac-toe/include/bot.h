@@ -2,13 +2,12 @@
 #define TIC_TAC_TOE_BOT_H
 
 #include <iostream>
-#include <cstring>
 struct Bot
 {
 public:
-    void move(unsigned int (&grid)[3][3]);
+    static void move(unsigned int (&grid)[3][3]);
 private:
-    int minimax(unsigned int grid[3][3], int depth, bool maximizing_player);
+    static int minimax(unsigned int grid[3][3], int depth, bool maximizing_player);
     static int evaluate(unsigned int grid[3][3]);
     static bool cells_left(unsigned int grid[3][3]);
 };

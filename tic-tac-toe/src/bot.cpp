@@ -3,23 +3,21 @@
 
 
 void Bot::move(unsigned int (&grid)[3][3]) {
-    unsigned int grid_copy[3][3];
-    std::memcpy(grid_copy, grid, sizeof(grid_copy));
-
-    int bestVal = -1000;
+    int best_score = - 1000;
     unsigned best_row = -1;
     unsigned best_col = -1;
     for (size_t row = 0; row<3; row++){
         for (size_t col = 0; col<3; col++){
             if (grid[row][col] == BLANK_ID){
-                grid_copy[row][col] = PLAYER_ID;
-                int CellVal = minimax(grid_copy, 0, false);
-                grid_copy[row][col] = BLANK_ID;
 
-                if (CellVal > bestVal){
+                grid[row][col] = BOT_ID;
+                int score = minimax(grid, 0, false);
+                grid[row][col] = BLANK_ID;
+
+                if (score > best_score){
                     best_row = row;
                     best_col = col;
-                    bestVal = CellVal;
+                    best_score = score;
                 }
             }
         }
@@ -33,52 +31,63 @@ int Bot::minimax(unsigned int grid[3][3], int depth, bool maximizing_player) {
         return score;
     if(!cells_left(grid))
         return 0 ;
-    int best = (maximizing_player)? -1000:+1000;
-    for (size_t row = 0; row < 3; row++){
-        for (size_t col = 0; col < 3; col++){
-            if (grid[row][col] == BLANK_ID){
-                grid[row][col] = (maximizing_player)? BOT_ID : PLAYER_ID;
-                if(maximizing_player)
-                    best = std::max(best, minimax(grid, depth+1, !maximizing_player) );
-                else
-                    best = std::min(best, minimax(grid, depth+1, !maximizing_player) );
-                grid[row][col] = BLANK_ID;
+
+    if(maximizing_player){
+        int best = -1000;
+        for (size_t row = 0; row < 3; row++) {
+            for (size_t col = 0; col < 3; col++) {
+                if (grid[row][col] == BLANK_ID) {
+                    grid[row][col] = BOT_ID;
+                    best = std::max(best, minimax(grid, depth + 1, false));
+                    grid[row][col] = BLANK_ID;
+                }
             }
         }
+        return best - depth;
+    }else {
+        int best = 1000;
+        for (size_t row = 0; row < 3; row++) {
+            for (size_t col = 0; col < 3; col++) {
+                if (grid[row][col] == BLANK_ID) {
+                    grid[row][col] = PLAYER_ID;
+                    best = std::min(best, minimax(grid, depth + 1, true));
+                    grid[row][col] = BLANK_ID;
+                }
+            }
+        }
+        return best;
     }
-    if(maximizing_player) best -= depth;
-    return best;
 }
 
 
 int Bot::evaluate(unsigned int grid[3][3]) {
     for(size_t row = 0; row < 3; row++){
         if (grid[row][0] == grid[row][1] && grid[row][1] == grid[row][2]){
-            if (grid[row][0] == PLAYER_ID)
+            if (grid[row][0] == BOT_ID)
                 return +10;
-            else if (grid[row][0] == BOT_ID)
+            else if (grid[row][0] == PLAYER_ID)
                 return -10;
         }
     }
 
     for (size_t col = 0; col<3; col++){
         if (grid[0][col] == grid[1][col] && grid[1][col] == grid[2][col]){
-            if (grid[0][col] == PLAYER_ID)
+            if (grid[0][col] == BOT_ID)
                 return +10;
-            else if (grid[0][col] == BOT_ID)
+            else if (grid[0][col] == PLAYER_ID)
                 return -10;
         }
     }
 
     if (grid[0][0] == grid[1][1] && grid[1][1] == grid[2][2]){
-        if (grid[0][0] == PLAYER_ID)
+        if (grid[0][0] == BOT_ID)
             return +10;
         else if (grid[0][0] == PLAYER_ID)
             return -10;
     }
 
     if (grid[0][2] == grid[1][1] && grid[1][1] == grid[2][0]){
-        if (grid[0][2] == PLAYER_ID)
+        if (grid[0][2] == BOT_ID)
             return +10;
         else if (grid[0][2] == PLAYER_ID)
             return -10;
