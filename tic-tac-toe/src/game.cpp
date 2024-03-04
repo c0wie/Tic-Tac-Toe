@@ -6,7 +6,8 @@ Game::Game(const unsigned int grid_size, const float cell_size):
         bot_score_(0),
         winner_ID(BLANK_ID)
 {
-    sf::Vector2f pos(SCREEN_WIDTH/2 - (cell_size + 5.0f), SCREEN_HEIGHT/2 - cell_size/2);
+//    initialising grid
+    sf::Vector2f pos(SCREEN_WIDTH/2 - (cell_size + 5.0f), SCREEN_HEIGHT/2 - 15.0f);
     for (int i = 0; i < grid_size; i++) {
         std::vector<Cell> row;
         for (int j = 0; j < grid_size; j++) {
@@ -24,6 +25,7 @@ void Game::update(const sf::Vector2i &mouse_position) {
     if(!player_move(mouse_position)) return;
     moves_++;
     if(game_over(moves_, grid_)) return;
+//     making copy of my grid but only state of it (Blank, O, X) because I don't need detection if cell was clicked
     unsigned int num_grid[3][3];
     for(int row = 0; row < 3; row++){
         for (int col = 0; col < 3; ++col) {
@@ -31,6 +33,7 @@ void Game::update(const sf::Vector2i &mouse_position) {
         }
     }
     Bot::move(num_grid);
+//     copying changes that Bot class made to my in grid
     for(int row = 0; row < 3; row++){
         for (int col = 0; col < 3; ++col) {
             grid_[row][col].ID = num_grid[row][col];
@@ -52,6 +55,7 @@ bool Game::player_move(const sf::Vector2i &mouse_position) {
 }
 
 void Game::restart() {
+//     returns to the starting point of game
     winner_ID = BLANK_ID;
     moves_ = 0;
     for(auto &row : grid_){

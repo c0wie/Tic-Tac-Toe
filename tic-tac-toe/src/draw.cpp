@@ -32,15 +32,15 @@ void Draw::grid(sf::RenderWindow &window, std::vector< std::vector<Cell> >& grid
 
 void Draw::score(sf::RenderWindow &window, const unsigned int bot_score, const unsigned int player_score) {
     sf::Text player_score_text("Player score is 0", my_font_, 30);
-    player_score_text.setPosition(sf::Vector2f(165.0f, 185.0f));
     player_score_text.setOrigin(player_score_text.getGlobalBounds().width/2, player_score_text.getGlobalBounds().height/2);
+    player_score_text.setPosition(sf::Vector2f(183.0f, 185.0f));
     player_score_text.setFillColor(sf::Color::Black);
     player_score_text.setOutlineThickness(1.0f);
     player_score_text.setOutlineColor(sf::Color::White);
 
     sf::Text bot_score_text("Bot score is 0", my_font_, 30);
-    bot_score_text.setPosition(sf::Vector2f(145.0f, 225.0f));
     bot_score_text.setOrigin(bot_score_text.getGlobalBounds().width/2, bot_score_text.getGlobalBounds().height/2);
+    bot_score_text.setPosition(sf::Vector2f(165.0f, 225.0f));
     bot_score_text.setFillColor(sf::Color::Black);
     bot_score_text.setOutlineThickness(1.0f);
     bot_score_text.setOutlineColor(sf::Color::White);

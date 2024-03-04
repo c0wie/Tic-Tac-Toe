@@ -4,22 +4,23 @@
 #include "draw.h"
 
 int main() {
+    // initialising  textures for game
     sf::Texture blank_txt, O_txt, X_txt;
-    auto *font = new sf::Font();
+    sf::Font font;
     if (!blank_txt.loadFromFile("./images/cell_off_background.jpg"))
         std::exit(EXIT_FAILURE);
     if (!O_txt.loadFromFile("./images/o.png"))
         std::exit(EXIT_FAILURE);
     if (!X_txt.loadFromFile("./images/x.png"))
         std::exit(EXIT_FAILURE);
-    if(!font->loadFromFile("./images/aAntiCorona.ttf"))
+    if(!font.loadFromFile("./images/aAntiCorona.ttf"))
         std::exit(EXIT_FAILURE);
 
     sf::RenderWindow app( sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Tic-Tac-Toe" );
 
     Game game(3, 100.0f);
-    Draw draw(*font);
-    delete font;
+    Draw draw(font);
+
     while (app.isOpen()) {
         sf::Event e{};
         while (app.pollEvent(e)) {
